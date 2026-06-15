@@ -59,12 +59,22 @@ export const COOKIE_SECRET = assertValue(
 )
 
 /**
- * (optional) Minio configuration for file storage
+ * (optional) Minio / S3-compatible configuration for file storage
+ *
+ * Compatible with both MinIO and Cloudflare R2 (S3 API).
+ * - `MINIO_ENDPOINT` should be the S3 endpoint WITHOUT protocol, e.g.
+ *   `11832992dc436d8cb010262ad75b2851.r2.cloudflarestorage.com` (R2) or
+ *   `bucket-production-xxxx.up.railway.app` (MinIO on Railway).
+ *   A protocol prefix (`https://`) is also accepted and will be stripped.
+ * - `MINIO_PUBLIC_URL` is the public CDN URL used to build file URLs returned
+ *   to clients. When omitted, falls back to `https://{endpoint}/{bucket}/{key}`.
+ *   For R2 with a custom domain, set this to e.g. `https://cdn.example.com`.
  */
 export const MINIO_ENDPOINT = process.env.MINIO_ENDPOINT;
 export const MINIO_ACCESS_KEY = process.env.MINIO_ACCESS_KEY;
 export const MINIO_SECRET_KEY = process.env.MINIO_SECRET_KEY;
 export const MINIO_BUCKET = process.env.MINIO_BUCKET; // Optional, if not set bucket will be called: medusa-media
+export const MINIO_PUBLIC_URL = process.env.MINIO_PUBLIC_URL; // Optional, e.g. https://cdn.stryxenstudio.com
 
 /**
  * (optional) Resend API Key and from Email - do not set if using SendGrid
